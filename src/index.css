@@ -64,6 +64,7 @@
       --input: 217.2 32.6% 17.5%;
       --ring: 212.7 26.8% 83.9%;
     }
+    
   }
 
   @layer base {
@@ -72,5 +73,8 @@
     }
     body {
       @apply bg-background text-foreground;
+    }
+    .bg-primary-gradient{
+      @apply bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500
     }
   }

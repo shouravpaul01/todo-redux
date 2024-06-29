@@ -25,8 +25,16 @@ const todoSlice = createSlice({
       state.todos = state.todos.map((todo) => todo.id === action.payload.id?{ ...todo,...action.payload }:{...todo});
       
     },
+    filterByPriority: (state, action) => {
+    
+      state.todos = state.todos.sort((a, b) => {
+        if (a.priority === action.payload && b.priority !== action.payload) return -1;
+        if (a.priority !== action.payload && b.priority === action.payload) return 0;
+        return 1;
+      });
+    },
   },
 });
-export const { addtodo, removeTodo, toggleComplete, updateTodo } =
+export const { addtodo, removeTodo, toggleComplete, updateTodo,filterByPriority } =
   todoSlice.actions;
 export default todoSlice.reducer;

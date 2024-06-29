@@ -1,4 +1,3 @@
-
 import { removeTodo, toggleComplete } from "../../redux/features/todoSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import {
@@ -13,14 +12,13 @@ import {
 import { Modal } from "../ui/Modal";
 import { Button } from "../ui/button";
 import { AddEditForm } from "./AddEditForm";
-import { TodoFilterDropdown } from "./TodoFilterDropdown";
 import { useState } from "react";
 import { TTodo } from "./todo.instance";
+import { TodoFilterSelect } from "./TodoFilterSelect";
 
 export const TodoContainer = () => {
   const dispatch = useAppDispatch();
   const { todos } = useAppSelector((state) => state.todos);
-
   const [editData, setEditData] = useState<TTodo | null>(null);
 
   const handleDelete = (id: string) => {
@@ -30,23 +28,44 @@ export const TodoContainer = () => {
     dispatch(toggleComplete(id));
   };
   const handleGetTodoById = (id: string) => {
-    const findTodo= todos.find((todo) => todo.id == id);
+    const findTodo = todos.find((todo) => todo.id == id);
     setEditData(findTodo || null);
   };
   return (
     <div className="p-7">
       <div className="flex justify-between ">
-        <Modal triggerBtn={<Button>Add Task</Button>} contentTitle="Add Task">
+        <Modal
+          triggerBtn={
+            <Button className="bg-primary-gradient">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="size-4"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 4.5v15m7.5-7.5h-15"
+                />
+              </svg>
+              Add Task
+            </Button>
+          }
+          contentTitle="Add Task"
+        >
           <AddEditForm />
         </Modal>
-        <TodoFilterDropdown />
+       <TodoFilterSelect/>
       </div>
       <Table className="my-4">
         {todos.length <= 0 && (
           <TableCaption className="text-base">Task not found!.</TableCaption>
         )}
         <TableHeader>
-          <TableRow className="bg-gray-200">
+          <TableRow className="bg-gray-200 hover:bg-gray-200">
             <TableHead className="w-[100px]"></TableHead>
             <TableHead>Title</TableHead>
             <TableHead>Description</TableHead>
@@ -90,7 +109,7 @@ export const TodoContainer = () => {
                     >
                       {" "}
                       <svg
-                        className="w-6 h-6"
+                        className="size-5"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
@@ -107,7 +126,7 @@ export const TodoContainer = () => {
                   }
                   contentTitle="Edit Task"
                 >
-                  <AddEditForm  editData={editData}/>
+                  <AddEditForm editData={editData} />
                 </Modal>
 
                 <Button
@@ -115,7 +134,7 @@ export const TodoContainer = () => {
                   onClick={() => handleDelete(todo.id)}
                 >
                   <svg
-                    className="w-6 h-6"
+                    className="size-5"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
