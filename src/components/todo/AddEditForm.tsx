@@ -9,6 +9,7 @@ import {
   RadioGroup,
   RadioGroupItem,
 } from "../../src/components/ui/radio-group";
+import { Textarea } from "../../src/components/ui/textarea";
 
 type TAddEditProps = {
   editData?: TTodo | null;
@@ -20,16 +21,13 @@ export const AddEditForm = ({ editData }: TAddEditProps) => {
   const [priority, setPriority] = useState("medium");
   const dispatch = useAppDispatch();
   const { todos } = useAppSelector((state) => state.todos);
-console.log(priority)
+  console.log(priority);
   useEffect(() => {
     if (editData) {
       setId(editData.id);
       setTitle(editData.title);
       setdescription(editData.description);
       setPriority(editData.priority);
-      console.log(editData.priority,'ee')
-     
-      
     }
   }, [editData]);
   const handleAddTask = (e: FormEvent) => {
@@ -39,7 +37,7 @@ console.log(priority)
       id: todoId,
       title: title,
       description: description,
-      priority:priority
+      priority: priority,
     };
     dispatch(addtodo(taskDetails));
   };
@@ -49,16 +47,15 @@ console.log(priority)
       id: id,
       title: title,
       description: description,
-      priority:priority
+      priority: priority,
     };
-    console.log(taskDetails);
     dispatch(updateTodo(taskDetails));
   };
   return (
     <form onSubmit={editData ? handleUpdateTodo : handleAddTask}>
       <div className="grid gap-4 py-4">
-        <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="title" className="text-right">
+        <div className="grid w-full gap-1.5 ">
+          <Label htmlFor="title">
             Title
           </Label>
           <Input
@@ -68,29 +65,34 @@ console.log(priority)
             className="col-span-3"
           />
         </div>
-        <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="description" className="text-right">
-            Description
-          </Label>
-          <Input
+        
+          <div className="grid w-full gap-1.5">
+            <Label htmlFor="description">Description</Label>
+            <Textarea placeholder="Task Description" id="description"  defaultValue={description}
+            onBlur={(e) => setdescription(e.target.value)} className="resize-none"/>
+          </div>
+          {/* <Input
             id="description"
             defaultValue={description}
             onBlur={(e) => setdescription(e.target.value)}
             className="col-span-3"
-          />
-        </div>
+          /> */}
+        
         <div>
           <Label htmlFor="description" className="">
             Priority
           </Label>
 
-          <RadioGroup value={priority} onValueChange={(value) => setPriority(value)}>
+          <RadioGroup
+            value={priority}
+            onValueChange={(value) => setPriority(value)}
+          >
             <div className="flex items-center space-x-2">
-              <RadioGroupItem  value="high" id="high" />
+              <RadioGroupItem value="high" id="high" />
               <Label htmlFor="r1">High</Label>
             </div>
             <div className="flex items-center space-x-2">
-              <RadioGroupItem value="medium" id="medium"  />
+              <RadioGroupItem value="medium" id="medium" />
               <Label htmlFor="r2">Medium</Label>
             </div>
             <div className="flex items-center space-x-2">
